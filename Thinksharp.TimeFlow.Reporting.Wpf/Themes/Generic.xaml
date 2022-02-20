@@ -1,0 +1,66 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Thinksharp.TimeFlow.Reporting.Wpf">
+  <Style TargetType="{x:Type local:ReportView}">    
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type local:ReportView}">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+            <!--<ListView x:Name="ListView" />-->
+            <DataGrid x:Name="DataGrid"
+                      IsReadOnly="True"
+                      SelectionMode="Extended"
+                      SelectionUnit="Cell"
+                      GridLinesVisibility="All"
+                      HorizontalGridLinesBrush="#E0E0E0"
+                      VerticalGridLinesBrush="#E0E0E0"
+                      AutoGenerateColumns="False"
+                      HorizontalAlignment="Left"
+                      CanUserDeleteRows="False"
+                      CanUserAddRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeRows="False"
+                      CanUserResizeColumns="False"
+                      CanUserSortColumns="False">
+              <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                  <Setter Property="Background" Value="{Binding Background, Converter={x:Static local:ColorToBrushConverter.Default}}" />
+                  <Setter Property="Foreground" Value="{Binding Foreground, Converter={x:Static local:ColorToBrushConverter.Default}}" />
+                  <Setter Property="HorizontalContentAlignment" Value="Center" />
+                  <Setter Property="Padding" Value="3,3" />
+                  <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                      <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding HeaderRows}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                              <TextBlock Text="{Binding Value}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </DataTemplate>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
+              </DataGrid.ColumnHeaderStyle>
+              <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                  <Setter Property="Background" Value="{Binding Background, Converter={x:Static local:ColorToBrushConverter.Default}}" />
+                  <Setter Property="Foreground" Value="{Binding Foreground, Converter={x:Static local:ColorToBrushConverter.Default}}" />
+                </Style>
+              </DataGrid.RowStyle>
+              <!--<DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                  <Setter Property="ContentStringFormat" Value="0.00" />                  
+                </Style>
+              </DataGrid.CellStyle>-->
+            </DataGrid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

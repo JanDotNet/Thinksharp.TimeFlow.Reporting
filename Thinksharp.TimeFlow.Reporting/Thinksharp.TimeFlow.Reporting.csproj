@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Class1_.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Thinksharp.TimeFlow" Version="1.0.2" />
+  </ItemGroup>
+
+</Project>
