@@ -4,10 +4,16 @@
 
   public abstract class Column
   {
-    public Column(Format? format)
+    internal Column(int number, Format? format)
     {
+      Number = number;
       Format = format;
     }
+
+    /// <summary>
+    /// 1-based number of the column.
+    /// </summary>
+    public int Number { get; set; }
 
     public Format? Format { get; }
 

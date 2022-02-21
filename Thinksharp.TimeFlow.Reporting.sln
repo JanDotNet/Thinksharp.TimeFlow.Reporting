@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thinksharp.TimeFlow.Reporti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thinksharp.TimeFlow.Reporting", "Thinksharp.TimeFlow.Reporting\Thinksharp.TimeFlow.Reporting.csproj", "{61292A18-B27E-46A4-A6CF-065CEC37D1F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinksharp.TimeFlow.Reporting.Excel", "Thinksharp.TimeFlow.Reporting.Excel\Thinksharp.TimeFlow.Reporting.Excel.csproj", "{82A582C3-3CB9-46B8-9FBC-2F4CE04E9859}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{61292A18-B27E-46A4-A6CF-065CEC37D1F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61292A18-B27E-46A4-A6CF-065CEC37D1F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61292A18-B27E-46A4-A6CF-065CEC37D1F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82A582C3-3CB9-46B8-9FBC-2F4CE04E9859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82A582C3-3CB9-46B8-9FBC-2F4CE04E9859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82A582C3-3CB9-46B8-9FBC-2F4CE04E9859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82A582C3-3CB9-46B8-9FBC-2F4CE04E9859}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

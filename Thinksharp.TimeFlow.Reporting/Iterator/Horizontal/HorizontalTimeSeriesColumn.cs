@@ -4,7 +4,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
 {
   public class HorizontalTimeSeriesColumn : Column
   {
-    public HorizontalTimeSeriesColumn(Format? format) : base(format)
+    public HorizontalTimeSeriesColumn(int number, Format? format) : base(number, format)
     {
 
     }

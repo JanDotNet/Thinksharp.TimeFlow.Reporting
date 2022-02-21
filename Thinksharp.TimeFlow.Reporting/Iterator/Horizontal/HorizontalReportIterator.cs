@@ -16,44 +16,47 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
 
     public IEnumerable<Column> EnumerateColumns()
     {
+      var colNum = 1;
       // time series name headers
-      yield return new HorizontalTimeSeriesColumn(report.ColumnHeaderFormat);
+      yield return new HorizontalTimeSeriesColumn(colNum++, report.ColumnHeaderFormat);
 
       // summary header
       foreach (var summary in report.Summary)
       {
-        yield return new HorizontalSummaryColumn(summary, report.ColumnHeaderFormat);
+        yield return new HorizontalSummaryColumn(colNum++, summary, report.ColumnHeaderFormat);
       }
 
       // time series data columns
       foreach (var timePoint in timeFrame.EnumerateTimePoints())
       {
-        yield return new HorizontalTimePointAxisColumn(timeFrame, timePoint);
+        yield return new HorizontalTimePointAxisColumn(colNum++, timeFrame, timePoint);
       }
     }
 
     public IEnumerable<Row> EnumerateHeaderRows()
     {
+      var rowNum = 1;
       foreach (var axis in report.Axes)
       {
-        yield return new HorizontalTimePointAxisRow(axis);
+        yield return new HorizontalTimePointAxisRow(rowNum++, axis);
       }
     }
 
     public IEnumerable<Row> EnumerateDataRows()
     {
+      var rowNum = report.Axes.Count + 1;
       foreach (var record in report.Body)
       {
         switch (record)
         {
           case TimeSeriesRecord r:
-            yield return new RecordDataRow<TimeSeriesRecord>(r);
+            yield return new RecordDataRow<TimeSeriesRecord>(rowNum++, r);
             break;
           case CalculatedTimeSeriesRecord r:
-            yield return new RecordDataRow<CalculatedTimeSeriesRecord>(r);
+            yield return new RecordDataRow<CalculatedTimeSeriesRecord>(rowNum++, r);
             break;
           case HeaderRecord r:
-            yield return new RecordDataRow<HeaderRecord>(r);
+            yield return new RecordDataRow<HeaderRecord>(rowNum++, r);
             break;
           default:
             throw new InvalidOperationException($"Reord type '{record.GetType().Name}' is not supported.");

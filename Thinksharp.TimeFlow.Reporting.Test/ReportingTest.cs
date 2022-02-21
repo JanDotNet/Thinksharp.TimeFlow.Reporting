@@ -167,41 +167,28 @@ namespace Thinksharp.TimeFlow.Reporting.Test
     {
       var cellsActual = new List<Cell>();
 
-      var colNum = 1;
-      var lastRowNum = 0;
       foreach (var col in iterator.EnumerateColumns())
       {
-        var rowNum = 1;
         foreach (var row in iterator.EnumerateHeaderRows())
         {
           var value = col.GetCellValue(row);
           var valueFormat = col.GetValueFormat(row);
           var format = col.GetFormat(row);
 
-          cellsActual.Add(new Cell(rowNum, colNum, value, valueFormat, format));
-
-          rowNum++;
+          cellsActual.Add(new Cell(row.Number, col.Number, value, valueFormat, format));
         }
-        lastRowNum = rowNum;
-        colNum++;
       }
 
-      colNum = 1;
       foreach (var col in iterator.EnumerateColumns())
       {
-        var rowNum = lastRowNum;
         foreach (var row in iterator.EnumerateDataRows())
         {
           var value = col.GetCellValue(row);
           var valueFormat = col.GetValueFormat(row);
           var format = col.GetFormat(row);
 
-          cellsActual.Add(new Cell(rowNum, colNum, value, valueFormat, format));
-
-          rowNum++;
+          cellsActual.Add(new Cell(row.Number, col.Number, value, valueFormat, format));
         }
-
-        colNum++;
       }
 
       return cellsActual;

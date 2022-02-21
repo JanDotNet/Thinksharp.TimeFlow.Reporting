@@ -2,7 +2,7 @@
 {
   internal class HorizontalSummaryColumn : Column
   {
-    public HorizontalSummaryColumn(Summary summary, Format? format) : base(format)
+    public HorizontalSummaryColumn(int number, Summary summary, Format? format) : base(number, format)
     {
       Summary = summary;
     }

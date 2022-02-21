@@ -4,7 +4,7 @@ namespace Thinksharp.TimeFlow.Reporting
 {
   public class RecordDataRow : Row
   {
-    public RecordDataRow(Record record)
+    public RecordDataRow(int number, Record record) : base(number)
     {
       this.Record = record;
     }
@@ -14,8 +14,8 @@ namespace Thinksharp.TimeFlow.Reporting
 
   public class RecordDataRow<TRecord> : RecordDataRow where TRecord : Record
   {
-    public RecordDataRow(TRecord record)
-      : base(record)
+    public RecordDataRow(int number, TRecord record)
+      : base(number, record)
     {
       Format = record.Format;
       Record = record;

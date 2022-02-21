@@ -2,7 +2,7 @@
 {
   public class HorizontalTimePointAxisRow : Row
   {
-    public HorizontalTimePointAxisRow(TimePointAxis axis)
+    public HorizontalTimePointAxisRow(int number, TimePointAxis axis) : base(number)
     {
       Axis = axis;
     }

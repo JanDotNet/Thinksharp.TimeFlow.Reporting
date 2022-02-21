@@ -4,7 +4,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 {
   public class VerticalTimePointRow : Row
   {
-    public VerticalTimePointRow(DateTimeOffset offset)
+    public VerticalTimePointRow(int number, DateTimeOffset offset) : base(number)
     {
       TimePoint = offset;
     }

@@ -4,7 +4,7 @@
 
   public class VerticalHeaderRow : Row
   {
-    public VerticalHeaderRow()
+    public VerticalHeaderRow(int number) : base(number)
     {
     }
   }

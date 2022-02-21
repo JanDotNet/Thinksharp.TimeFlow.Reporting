@@ -2,16 +2,16 @@
 
 namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 {
-  public class VerticalTimeSeriesColumn : Column
+  public class VerticalRecordColumn : Column
   {
     private readonly TimeFrame timeFrame;
 
-    public VerticalTimeSeriesColumn(TimeFrame timeFrame, TimeSeriesRecord record) : base(record.Format)
+    public VerticalRecordColumn(int number, TimeFrame timeFrame, Record record) : base(number, record.Format)
     {
       this.timeFrame = timeFrame;
       Record = record;
     }
-    public TimeSeriesRecord Record { get; }
+    public Record Record { get; }
 
     public override object? GetCellValue(Row row)
     {

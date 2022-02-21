@@ -16,9 +16,10 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 
     public IEnumerable<Column> EnumerateColumns()
     {
+      var colNum = 1;
       foreach (var axis in report.Axes)
       {
-        yield return new VerticalTimePointAxisColumn(timeFrame, axis, report.ColumnHeaderFormat);
+        yield return new VerticalTimePointAxisColumn(colNum++, timeFrame, axis, report.ColumnHeaderFormat);
       }
 
       foreach (var record in report.Body)
@@ -26,10 +27,13 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
         switch (record)
         {
           case TimeSeriesRecord r:
-            yield return new VerticalTimeSeriesColumn(timeFrame, r);
+            yield return new VerticalRecordColumn(colNum++, timeFrame, r);
+            break;
+          case CalculatedTimeSeriesRecord r:
+            yield return new VerticalRecordColumn(colNum++, timeFrame, r);
             break;
           case HeaderRecord r:
-            yield return new VerticalHeaderColumn(r);
+            yield return new VerticalHeaderColumn(colNum++, r);
             break;
           default:
             throw new NotSupportedException($"Record type {record.GetType().Name} is not supported.");
@@ -39,14 +43,16 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 
     public IEnumerable<Row> EnumerateHeaderRows()
     {
-      yield return new VerticalHeaderRow();
+      var rowNum = 1;
+      yield return new VerticalHeaderRow(rowNum);
     }
 
     public IEnumerable<Row> EnumerateDataRows()
     {
+      var rowNum = 2;
       foreach (var timePoint in timeFrame.EnumerateTimePoints())
       {
-        yield return new VerticalTimePointRow(timePoint);
+        yield return new VerticalTimePointRow(rowNum++, timePoint);
       }
     }
   }

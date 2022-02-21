@@ -7,7 +7,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
     private readonly TimeFrame timeFrame;
     private readonly TimePointAxis axis;
 
-    public VerticalTimePointAxisColumn(TimeFrame timeFrame, TimePointAxis axis, Format? format) : base(format)
+    public VerticalTimePointAxisColumn(int number, TimeFrame timeFrame, TimePointAxis axis, Format? format) : base(number, format)
     {
       this.timeFrame = timeFrame;
       this.axis = axis;
