@@ -15,9 +15,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
       {
         case HorizontalTimePointAxisRow axisRow:
           return null;
-        case RecordDataRow<TimeSeriesRecord> r:
-          return r.Record.Header;
-        case RecordDataRow<HeaderRecord> r:
+        case RecordDataRow r:
           return r.Record.Header;
         default:
           throw new InvalidOperationException($"{row.GetType().Name} is not supported.");
@@ -30,7 +28,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
       {
         case HorizontalTimePointAxisRow axisRow:
           return null;
-        case RecordDataRow<TimeSeriesRecord> r:
+        case RecordDataRow r:
           return r.Record.ValueFormat;
         default:
           return null;

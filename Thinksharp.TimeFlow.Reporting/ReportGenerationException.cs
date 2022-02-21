@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thinksharp.TimeFlow.Reporting.Iterator
+namespace Thinksharp.TimeFlow.Reporting
 {
 
   public class ReportGenerationException : Exception

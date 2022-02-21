@@ -49,8 +49,8 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
           case TimeSeriesRecord r:
             yield return new RecordDataRow<TimeSeriesRecord>(r);
             break;
-          case CalculatedRecord r:
-            yield return new RecordDataRow<CalculatedRecord>(r);
+          case CalculatedTimeSeriesRecord r:
+            yield return new RecordDataRow<CalculatedTimeSeriesRecord>(r);
             break;
           case HeaderRecord r:
             yield return new RecordDataRow<HeaderRecord>(r);

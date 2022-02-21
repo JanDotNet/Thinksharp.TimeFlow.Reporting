@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Thinksharp.TimeFlow.Reporting.Calculation;
 using Thinksharp.TimeFlow.Reporting.Iterator;
 using Thinksharp.TimeFlow.Reporting.Iterator.Horizontal;
 using Thinksharp.TimeFlow.Reporting.Iterator.Vertical;
@@ -19,17 +20,10 @@ namespace Thinksharp.TimeFlow.Reporting
 
     public IReportIterator CreateReportIterator(TimeFrame timeFrame)
     {
-      // validate
-      foreach (var ts in Body.OfType<TimeSeriesRecord>())
-      {
-        if (timeFrame[ts.Key] == null)
-        {
-          throw new ArgumentException($"Time frame contains no time series with key '{ts.Key}'.");
-        }
+      timeFrame = timeFrame.Copy();
 
-        // todo: check summary
-        // todo: check calculated time series
-      }
+      timeFrame.CheckIfTimeSeriesExist(this.Body.OfType<TimeSeriesRecord>());
+      timeFrame.ExtendWithCalculatedTimeSeries(Body.OfType<CalculatedTimeSeriesRecord>());
 
       switch (Orientation)
       {

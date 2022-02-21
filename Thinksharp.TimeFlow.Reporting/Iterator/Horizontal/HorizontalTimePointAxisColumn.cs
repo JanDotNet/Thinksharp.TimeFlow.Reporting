@@ -7,10 +7,6 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
     private readonly TimeFrame timeFrame;
     private readonly DateTimeOffset end;
 
-    public HorizontalTimePointAxisColumn(Format? format) : base(format)
-    {
-    }
-
     public HorizontalTimePointAxisColumn(TimeFrame timeFrame, DateTimeOffset timePoint) : base(null)
     {
       this.timeFrame = timeFrame;
@@ -38,7 +34,14 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
           var ts = timeFrame[r.Record.Key];
           if (ts == null)
           {
-            throw new ReportGenerationException($"Can not find time series to key '{r.Record.Key}'.");
+            throw new ReportGenerationException($"Can not find time series '{r.Record.Header}' (Key: '{r.Record.Key}').");
+          }
+          return ts[TimePoint];
+        case RecordDataRow<CalculatedTimeSeriesRecord> r:
+          ts = timeFrame[r.Record.Key];
+          if (ts == null)
+          {
+            throw new ReportGenerationException($"Can not find calculated time series to formaula '{r.Record.Formula}'.");
           }
           return ts[TimePoint];
         case RecordDataRow<HeaderRecord> r:

@@ -2,10 +2,10 @@
 
 namespace Thinksharp.TimeFlow.Reporting
 {
-  public class CalculatedRecord : Record
+  public class CalculatedTimeSeriesRecord : Record
   {
-    public CalculatedRecord(string key, string header, string formula)
-      : base(key, header)
+    public CalculatedTimeSeriesRecord(string key, string header, string formula, string? valueFormat = null)
+      : base(key, header, valueFormat)
     {
       Formula = formula;
     }
