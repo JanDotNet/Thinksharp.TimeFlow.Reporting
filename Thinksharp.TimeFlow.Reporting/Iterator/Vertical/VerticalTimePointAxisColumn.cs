@@ -2,12 +2,12 @@
 
 namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 {
-  public class VerticalTimePointAxisColumn : Column
+  internal class VerticalTimePointAxisColumn : VerticalColumn
   {
     private readonly TimeFrame timeFrame;
     private readonly TimePointAxis axis;
 
-    public VerticalTimePointAxisColumn(int number, TimeFrame timeFrame, TimePointAxis axis, Format? format) : base(number, format)
+    public VerticalTimePointAxisColumn(int number, TimeFrame timeFrame, TimePointAxis axis, Format format) : base(number, format, axis.Format)
     {
       this.timeFrame = timeFrame;
       this.axis = axis;
@@ -18,15 +18,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
       switch (row)
       {
         case VerticalHeaderRow r:
-          switch (axis.TimePointType)
-          {
-            case TimePointType.Start:
-              return "Start";
-            case TimePointType.End:
-              return "End";
-            default:
-              throw new NotSupportedException($"TimePointType '{axis.TimePointType}' is not supported.");
-          }
+          return axis.Header;
         case VerticalTimePointRow r:
           switch (axis.TimePointType)
           {

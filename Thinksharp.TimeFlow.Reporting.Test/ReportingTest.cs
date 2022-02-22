@@ -17,7 +17,6 @@ namespace Thinksharp.TimeFlow.Reporting.Test
 
       var report = new Report();
       report.Orientation = ReportOrientation.Horizontal;
-      report.ColumnHeaderFormat = new Format();
       report.Axes.Add(new TimePointAxis("Start", TimePointType.Start, "MM-dd-yyyy"));
       report.Axes.Add(new TimePointAxis("End", TimePointType.End, "MM-dd"));
 
@@ -66,7 +65,6 @@ namespace Thinksharp.TimeFlow.Reporting.Test
 
       var report = new Report();
       report.Orientation = ReportOrientation.Horizontal;
-      report.ColumnHeaderFormat = new Format();
       report.Axes.Add(new TimePointAxis("Start", TimePointType.Start, "MM-dd-yyyy"));
       report.Axes.Add(new TimePointAxis("End", TimePointType.End, "MM-dd"));
 
@@ -123,7 +121,6 @@ namespace Thinksharp.TimeFlow.Reporting.Test
 
       var report = new Report();
       report.Orientation = ReportOrientation.Vertical;
-      report.ColumnHeaderFormat = new Format();
       report.Axes.Add(new TimePointAxis("Start", TimePointType.Start, "MM-dd-yyyy"));
       report.Axes.Add(new TimePointAxis("End", TimePointType.End, "MM-dd"));
 

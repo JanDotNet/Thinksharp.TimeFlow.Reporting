@@ -1,13 +1,12 @@
 ﻿namespace Thinksharp.TimeFlow.Reporting.Iterator
 {
-  // Reporting
-
   public abstract class Column
   {
-    internal Column(int number, Format? format)
+    internal Column(int number, Format columnFormat, Format? format = null)
     {
       Number = number;
       Format = format;
+      ColumnFormat = columnFormat;
     }
 
     /// <summary>
@@ -15,11 +14,17 @@
     /// </summary>
     public int Number { get; set; }
 
-    public Format? Format { get; }
+    protected Format ColumnFormat { get; } = Format.Default();
+
+    protected Format? Format { get; } = null;
 
     public abstract object? GetCellValue(Row row);
 
-    public Format GetFormat(Row row) => Format ?? row.Format;
+    public abstract Format GetFormat(Row row);
+
+    public Format? GetFormat() => this.Format;
+
+    public Format GetColumnFormat() => this.ColumnFormat;
 
     public abstract string? GetValueFormat(Row row);
   }

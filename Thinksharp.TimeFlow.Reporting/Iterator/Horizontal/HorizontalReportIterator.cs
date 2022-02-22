@@ -29,7 +29,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
       // time series data columns
       foreach (var timePoint in timeFrame.EnumerateTimePoints())
       {
-        yield return new HorizontalTimePointAxisColumn(colNum++, timeFrame, timePoint);
+        yield return new HorizontalTimePointAxisColumn(colNum++, timeFrame, timePoint, report.ColumnHeaderFormat);
       }
     }
 

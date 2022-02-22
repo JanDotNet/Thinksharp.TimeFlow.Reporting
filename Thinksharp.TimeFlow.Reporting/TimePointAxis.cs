@@ -10,7 +10,11 @@
     }
 
     public string Header { get; }
+
+    public Format Format { get; } = Format.Default();
+    
     public TimePointType TimePointType { get; }
+    
     public string? TimePointFormat { get; }
   }
 }

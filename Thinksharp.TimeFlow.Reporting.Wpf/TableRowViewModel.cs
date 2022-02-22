@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Media;
 using Thinksharp.TimeFlow.Reporting.Iterator;
 
@@ -80,6 +81,9 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
       get { return background; }
       set { SetValue(ref background, value); }
     }
+
+    public System.Windows.TextAlignment HorizontalAlignment { get; set; }
+    public FontWeight FontWeight { get; set; }
 
     public Row Row { get; }
   }

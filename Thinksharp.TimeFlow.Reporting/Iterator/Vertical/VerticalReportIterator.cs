@@ -27,13 +27,13 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
         switch (record)
         {
           case TimeSeriesRecord r:
-            yield return new VerticalRecordColumn(colNum++, timeFrame, r);
+            yield return new VerticalRecordColumn(colNum++, timeFrame, r, report.ColumnHeaderFormat);
             break;
           case CalculatedTimeSeriesRecord r:
-            yield return new VerticalRecordColumn(colNum++, timeFrame, r);
+            yield return new VerticalRecordColumn(colNum++, timeFrame, r, report.ColumnHeaderFormat);
             break;
           case HeaderRecord r:
-            yield return new VerticalHeaderColumn(colNum++, r);
+            yield return new VerticalHeaderColumn(colNum++, r, report.ColumnHeaderFormat);
             break;
           default:
             throw new NotSupportedException($"Record type {record.GetType().Name} is not supported.");

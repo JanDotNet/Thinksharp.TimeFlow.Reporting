@@ -2,12 +2,12 @@
 
 namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
 {
-  public class HorizontalTimePointAxisColumn : Column
+  internal class HorizontalTimePointAxisColumn : HorizontalColumn
   {
     private readonly TimeFrame timeFrame;
     private readonly DateTimeOffset end;
 
-    public HorizontalTimePointAxisColumn(int number, TimeFrame timeFrame, DateTimeOffset timePoint) : base(number, null)
+    public HorizontalTimePointAxisColumn(int number, TimeFrame timeFrame, DateTimeOffset timePoint, Format columnFormat, Format? format = null) : base(number, columnFormat, format)
     {
       this.timeFrame = timeFrame;
       TimePoint = timePoint;

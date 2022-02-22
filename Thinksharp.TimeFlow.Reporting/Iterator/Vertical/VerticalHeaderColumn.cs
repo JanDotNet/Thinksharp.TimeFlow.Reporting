@@ -2,11 +2,9 @@
 
 namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 {
-  public class VerticalHeaderColumn : Column
+  internal class VerticalHeaderColumn : VerticalColumn
   {
-    private readonly TimeFrame timeFrame;
-
-    public VerticalHeaderColumn(int number, HeaderRecord record) : base(number, record.Format)
+    public VerticalHeaderColumn(int number, HeaderRecord record, Format format) : base(number, format, record.Format)
     {
       Record = record;
     }

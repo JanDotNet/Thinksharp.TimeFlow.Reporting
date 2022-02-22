@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Thinksharp.TimeFlow.Reporting.Wpf
 {
@@ -72,24 +73,52 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
       var iterator = report.CreateReportIterator(timeFrame);
 
       var colNo = 1;
-      foreach (var col in iterator.EnumerateColumns()) 
-      {        
+      foreach (var col in iterator.EnumerateColumns())
+      {
         var headerRows = new List<HeaderRow>();
         foreach (var row in iterator.EnumerateHeaderRows())
         {
           var value = col.GetCellValue(row);
-
+          var format = col.GetFormat(row);
           headerRows.Add(new HeaderRow
           {
-            Value = string.Format("{0:" + col.GetValueFormat(row) + "}", value)
+            Value = string.Format("{0:" + col.GetValueFormat(row) + "}", value),
+            FontWeight = format.Bold ? FontWeights.Bold : FontWeights.Normal,
+            HorizontalAlignment = format.HorizontalAlignment.ToHorizontalAlignment()
           });
         }
 
         var colName = "column" + colNo++;
-
+        var colFormat = col.GetColumnFormat();
         var column = new DataGridReportColumn(col);
         var columnHeaderVM = new ColumnViewModel();
         columnHeaderVM.HeaderRows = headerRows.ToArray();
+        if (colFormat != null)
+        {
+          columnHeaderVM.Background = colFormat.Background.ToWpfColor();
+          columnHeaderVM.Foreground = colFormat.Foreground.ToWpfColor();
+        }
+
+        var colDataFormat = col.GetFormat();
+        if (colDataFormat != null)
+        {
+          column.CellStyle = new Style(typeof(DataGridCell));
+          column.CellStyle.Setters.Add(new Setter(TextBlock.TextAlignmentProperty, colDataFormat.HorizontalAlignment.ToTextAlignment()));          
+          var trigger = new Trigger() { Property = DataGridCell.IsSelectedProperty, Value = false, };
+          trigger.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(colDataFormat.Background.ToWpfColor())));
+          trigger.Setters.Add(new Setter(DataGridCell.ForegroundProperty, new SolidColorBrush(colDataFormat.Foreground.ToWpfColor())));
+          trigger.Setters.Add(new Setter(DataGridCell.BorderBrushProperty, new SolidColorBrush(colDataFormat.Background.ToWpfColor())));          
+          if (colDataFormat.Bold)
+          {
+            trigger.Setters.Add(new Setter(DataGridCell.FontWeightProperty, FontWeights.Bold));
+          }
+
+          column.CellStyle.Triggers.Add(trigger);
+          //column.CellStyle.Triggers.Add()
+          //column.CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(colFormat.Background.ToWpfColor())));
+          //column.CellStyle.Setters.Add(new Setter(DataGridCell.ForegroundProperty, new SolidColorBrush(colFormat.Foreground.ToWpfColor())));
+        }
+
         column.Header = columnHeaderVM;
         column.Binding = new Binding(colName);
         column.Binding.StringFormat = col.GetValueFormat(null);
@@ -98,7 +127,7 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
 
       var rows = new List<RowViewModel>();
       foreach (var row in iterator.EnumerateDataRows())
-      {
+      { 
         colNo = 1;
         var dic = new Dictionary<string, object>();
         foreach (var col in iterator.EnumerateColumns())
@@ -110,6 +139,8 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
         var rowVM = new RowViewModel(row, dic);
         rowVM.Background = row.Format.Background.ToWpfColor();
         rowVM.Foreground = row.Format.Foreground.ToWpfColor();
+        rowVM.FontWeight = row.Format.Bold ? FontWeights.Bold : FontWeights.Normal;
+        rowVM.HorizontalAlignment = row.Format.HorizontalAlignment.ToTextAlignment();
 
         rows.Add(rowVM);
       }

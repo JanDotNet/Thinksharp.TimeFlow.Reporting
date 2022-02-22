@@ -29,7 +29,7 @@
                 <Style TargetType="DataGridColumnHeader">
                   <Setter Property="Background" Value="{Binding Background, Converter={x:Static local:ColorToBrushConverter.Default}}" />
                   <Setter Property="Foreground" Value="{Binding Foreground, Converter={x:Static local:ColorToBrushConverter.Default}}" />
-                  <Setter Property="HorizontalContentAlignment" Value="Center" />
+                  <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalAlignment}" />
                   <Setter Property="Padding" Value="3,3" />
                   <Setter Property="ContentTemplate">
                     <Setter.Value>
@@ -37,7 +37,9 @@
                         <ItemsControl ItemsSource="{Binding HeaderRows}">
                           <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                              <TextBlock Text="{Binding Value}" HorizontalAlignment="Center" />
+                              <TextBlock Text="{Binding Value}" 
+                                         HorizontalAlignment="{Binding HorizontalAlignment}"
+                                         FontWeight="{Binding FontWeight}"/>
                             </DataTemplate>
                           </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -45,11 +47,13 @@
                     </Setter.Value>
                   </Setter>
                 </Style>
-              </DataGrid.ColumnHeaderStyle>
+              </DataGrid.ColumnHeaderStyle>              
               <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                   <Setter Property="Background" Value="{Binding Background, Converter={x:Static local:ColorToBrushConverter.Default}}" />
                   <Setter Property="Foreground" Value="{Binding Foreground, Converter={x:Static local:ColorToBrushConverter.Default}}" />
+                  <Setter Property="FontWeight" Value="{Binding FontWeight}" />
+                  <Setter Property="TextBlock.TextAlignment" Value="{Binding HorizontalAlignment}" />
                 </Style>
               </DataGrid.RowStyle>
               <!--<DataGrid.CellStyle>

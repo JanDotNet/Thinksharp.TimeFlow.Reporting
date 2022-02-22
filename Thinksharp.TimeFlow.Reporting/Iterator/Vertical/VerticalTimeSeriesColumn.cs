@@ -2,11 +2,11 @@
 
 namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 {
-  public class VerticalRecordColumn : Column
+  internal class VerticalRecordColumn : VerticalColumn
   {
     private readonly TimeFrame timeFrame;
 
-    public VerticalRecordColumn(int number, TimeFrame timeFrame, Record record) : base(number, record.Format)
+    public VerticalRecordColumn(int number, TimeFrame timeFrame, Record record, Format columnFormat) : base(number, columnFormat, record.Format)
     {
       this.timeFrame = timeFrame;
       Record = record;

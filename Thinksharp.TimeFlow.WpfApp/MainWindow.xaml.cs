@@ -31,14 +31,15 @@ namespace Thinksharp.TimeFlow.WpfApp
     private void Render(ReportOrientation orientation)
     {
       var tf = new TimeFrame();
-      tf["ts1"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2023, 01, 02), Period.Day);
-      tf["ts2"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2023, 01, 02), Period.Day);
+      tf["ts1"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2022, 01, 02), Period.Hour);
+      tf["ts2"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2022, 01, 02), Period.Hour);
 
       var report = new Report();
       report.Orientation = orientation;
       report.ColumnHeaderFormat.HorizontalAlignment = Reporting.HorizontalAlignment.Center;
       report.ColumnHeaderFormat.Background = ReportColor.Black;
       report.ColumnHeaderFormat.Foreground = ReportColor.White;
+      report.ColumnHeaderFormat.Bold = true;
       report.Axes.Add(new TimePointAxis("Date", TimePointType.Start, "yyyy-MM-dd"));
       report.Axes.Add(new TimePointAxis("Start", TimePointType.Start, "HH:mm"));
       report.Axes.Add(new TimePointAxis("End", TimePointType.End, "HH:mm"));
@@ -52,6 +53,7 @@ namespace Thinksharp.TimeFlow.WpfApp
       var ts3Record = new CalculatedTimeSeriesRecord("ts3", "Summe: ", "ts1+ts2");
       ts3Record.Format.Bold = true;
       ts3Record.Format.Background = ReportColor.Blue;
+      ts3Record.Format.HorizontalAlignment = Reporting.HorizontalAlignment.Center;
 
       var header = new HeaderRecord("my Header");
       header.Format.Background = ReportColor.Blue;

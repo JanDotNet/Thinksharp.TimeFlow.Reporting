@@ -1,8 +1,8 @@
 ﻿namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
 {
-  internal class HorizontalSummaryColumn : Column
+  internal class HorizontalSummaryColumn : HorizontalColumn
   {
-    public HorizontalSummaryColumn(int number, Summary summary, Format? format) : base(number, format)
+    public HorizontalSummaryColumn(int number, Summary summary, Format columnFormat) : base(number, columnFormat, summary.Format)
     {
       Summary = summary;
     }

@@ -32,7 +32,7 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
 
       var newBinding = new Binding(binding.Path.Path);
       newBinding.StringFormat = this.column.GetValueFormat(rowViewModel.Row);
-      element.SetBinding(TextBlock.TextProperty, newBinding);
+      textBlock.SetBinding(TextBlock.TextProperty, newBinding);  
 
       return textBlock;
     }
