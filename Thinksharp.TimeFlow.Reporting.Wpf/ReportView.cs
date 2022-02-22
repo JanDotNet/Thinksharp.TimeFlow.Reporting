@@ -103,20 +103,25 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
         if (colDataFormat != null)
         {
           column.CellStyle = new Style(typeof(DataGridCell));
-          column.CellStyle.Setters.Add(new Setter(TextBlock.TextAlignmentProperty, colDataFormat.HorizontalAlignment.ToTextAlignment()));          
-          var trigger = new Trigger() { Property = DataGridCell.IsSelectedProperty, Value = false, };
-          trigger.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(colDataFormat.Background.ToWpfColor())));
-          trigger.Setters.Add(new Setter(DataGridCell.ForegroundProperty, new SolidColorBrush(colDataFormat.Foreground.ToWpfColor())));
-          trigger.Setters.Add(new Setter(DataGridCell.BorderBrushProperty, new SolidColorBrush(colDataFormat.Background.ToWpfColor())));          
-          if (colDataFormat.Bold)
-          {
-            trigger.Setters.Add(new Setter(DataGridCell.FontWeightProperty, FontWeights.Bold));
-          }
+          
+          if (colDataFormat.HasHorizontalAlignmentModified)
+            column.CellStyle.Setters.Add(new Setter(TextBlock.TextAlignmentProperty, colDataFormat.HorizontalAlignment.ToTextAlignment()));
+          
+          if (colDataFormat.HasBoldModified && colDataFormat.Bold)
+            column.CellStyle.Setters.Add(new Setter(DataGridCell.FontWeightProperty, FontWeights.Bold));
 
-          column.CellStyle.Triggers.Add(trigger);
-          //column.CellStyle.Triggers.Add()
-          //column.CellStyle.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(colFormat.Background.ToWpfColor())));
-          //column.CellStyle.Setters.Add(new Setter(DataGridCell.ForegroundProperty, new SolidColorBrush(colFormat.Foreground.ToWpfColor())));
+          var trigger = new Trigger() { Property = DataGridCell.IsSelectedProperty, Value = false, };
+
+          if (colDataFormat.HasBackgroundModified)
+          {
+            trigger.Setters.Add(new Setter(DataGridCell.BackgroundProperty, new SolidColorBrush(colDataFormat.Background.ToWpfColor())));
+            trigger.Setters.Add(new Setter(DataGridCell.BorderBrushProperty, new SolidColorBrush(colDataFormat.Background.ToWpfColor())));
+          }
+          if (colDataFormat.HasForegroundModified)
+            trigger.Setters.Add(new Setter(DataGridCell.ForegroundProperty, new SolidColorBrush(colDataFormat.Foreground.ToWpfColor())));
+
+          if (trigger.Setters.Count > 0)
+            column.CellStyle.Triggers.Add(trigger);
         }
 
         column.Header = columnHeaderVM;

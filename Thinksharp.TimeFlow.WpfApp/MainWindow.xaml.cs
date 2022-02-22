@@ -40,6 +40,8 @@ namespace Thinksharp.TimeFlow.WpfApp
       report.ColumnHeaderFormat.Background = ReportColor.Black;
       report.ColumnHeaderFormat.Foreground = ReportColor.White;
       report.ColumnHeaderFormat.Bold = true;
+      report.RowHeaderFormat.HorizontalAlignment = Reporting.HorizontalAlignment.Left;
+      report.RowHeaderFormat.Bold = true;
       report.Axes.Add(new TimePointAxis("Date", TimePointType.Start, "yyyy-MM-dd"));
       report.Axes.Add(new TimePointAxis("Start", TimePointType.Start, "HH:mm"));
       report.Axes.Add(new TimePointAxis("End", TimePointType.End, "HH:mm"));
@@ -63,9 +65,12 @@ namespace Thinksharp.TimeFlow.WpfApp
       report.Body.Add(ts1Record);
       report.Body.Add(ts2Record);
       report.Body.Add(ts3Record);
-        
 
-      report.Summary.Add(new Summary("sum", "Sum"));
+
+      var summary = new Summary("sum", "Sum");
+      summary.Format.Bold = true;
+
+      report.Summary.Add(summary);
 
       Report.Report = report;
       Report.TimeFrame = tf;

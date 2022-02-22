@@ -2,7 +2,7 @@
 {
   internal abstract class VerticalColumn : Column
   {
-    internal VerticalColumn(int number, Format columnFormat, Format? format) : base(number, columnFormat, format)
+    internal VerticalColumn(int number, Format columnFormat, Format format) : base(number, columnFormat, format)
     {
     }
 
@@ -13,7 +13,7 @@
         case VerticalHeaderRow r:
           return this.ColumnFormat;
         default:
-          return this.Format ?? row.Format;
+          return this.Format.Merge(row.Format);
       }
     }
   }

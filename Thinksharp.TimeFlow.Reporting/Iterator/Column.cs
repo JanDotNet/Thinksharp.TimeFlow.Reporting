@@ -2,7 +2,7 @@
 {
   public abstract class Column
   {
-    internal Column(int number, Format columnFormat, Format? format = null)
+    internal Column(int number, Format columnFormat, Format format)
     {
       Number = number;
       Format = format;
@@ -14,15 +14,15 @@
     /// </summary>
     public int Number { get; set; }
 
-    protected Format ColumnFormat { get; } = Format.Default();
+    protected Format ColumnFormat { get; }
 
-    protected Format? Format { get; } = null;
+    protected Format Format { get; }
 
     public abstract object? GetCellValue(Row row);
 
     public abstract Format GetFormat(Row row);
 
-    public Format? GetFormat() => this.Format;
+    public Format GetFormat() => this.Format;
 
     public Format GetColumnFormat() => this.ColumnFormat;
 

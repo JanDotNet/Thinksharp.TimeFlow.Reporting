@@ -18,7 +18,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
     {
       var colNum = 1;
       // time series name headers
-      yield return new HorizontalTimeSeriesColumn(colNum++, report.ColumnHeaderFormat);
+      yield return new HorizontalTimeSeriesColumn(colNum++, report.ColumnHeaderFormat, report.RowHeaderFormat);
 
       // summary header
       foreach (var summary in report.Summary)

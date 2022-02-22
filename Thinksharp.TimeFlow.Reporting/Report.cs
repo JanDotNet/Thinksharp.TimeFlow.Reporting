@@ -12,6 +12,7 @@ namespace Thinksharp.TimeFlow.Reporting
   {
     public ReportOrientation Orientation { get; set; } = ReportOrientation.Vertical;
     public Format ColumnHeaderFormat { get; } = Format.Default();
+    public Format RowHeaderFormat { get; } = Format.Default();
     public List<TimePointAxis> Axes { get; } = new List<TimePointAxis>();
     public List<Record> Body { get; } = new List<Record>();
     public List<Summary> Summary { get; } = new List<Summary>();
