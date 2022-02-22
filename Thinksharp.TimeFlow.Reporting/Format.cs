@@ -12,7 +12,7 @@
     internal bool HasBackgroundModified { get; set; }
     internal bool HasForegroundModified { get; set; }
 
-    private bool HasAnyModified => HasBackgroundModified || HasBoldModified || HasForegroundModified || HasHorizontalAlignmentModified;
+    internal bool HasAnyModified => HasBackgroundModified || HasBoldModified || HasForegroundModified || HasHorizontalAlignmentModified;
 
     internal void Reset()
     {

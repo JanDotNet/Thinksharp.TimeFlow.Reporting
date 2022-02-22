@@ -2,12 +2,110 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace Thinksharp.TimeFlow.Reporting.Test
 {
   [TestClass]
   public partial class ReportingTest
   {
+    [TestMethod]
+    public void TestSerialization()
+    {
+      var report = new Report();
+      report.Orientation = ReportOrientation.Vertical;
+      report.ColumnHeaderFormat.HorizontalAlignment = Reporting.HorizontalAlignment.Center;
+      report.ColumnHeaderFormat.Background = ReportColor.Black;
+      report.ColumnHeaderFormat.Foreground = ReportColor.White;
+      report.ColumnHeaderFormat.Bold = true;
+      report.RowHeaderFormat.HorizontalAlignment = Reporting.HorizontalAlignment.Left;
+      report.RowHeaderFormat.Bold = true;
+      report.Axes.Add(new TimePointAxis("Date", TimePointType.Start, "yyyy-MM-dd"));
+      report.Axes.Add(new TimePointAxis("Start", TimePointType.Start, "HH:mm"));
+      report.Axes.Add(new TimePointAxis("End", TimePointType.End, "HH:mm"));
+
+      var ts1Record = new TimeSeriesRecord("ts1", "Meine Zeitreihe TS1", "0.00");
+      ts1Record.AggregationFormula.Add("sum", "SUM");
+
+      var ts2Record = new TimeSeriesRecord("ts2", "Meine Zeitreihe TS2");
+      ts2Record.AggregationFormula.Add("sum", "SUM");
+
+      var ts3Record = new CalculatedTimeSeriesRecord("ts3", "Summe: ", "ts1+ts2");
+      ts3Record.Format.Bold = true;
+      ts3Record.Format.Background = ReportColor.Blue;
+      ts3Record.Format.HorizontalAlignment = Reporting.HorizontalAlignment.Center;
+
+      var header = new HeaderRecord("my Header");
+      header.Format.Background = ReportColor.Blue;
+      header.Format.Bold = true;
+
+      report.Body.Add(header);
+      report.Body.Add(ts1Record);
+      report.Body.Add(ts2Record);
+      report.Body.Add(ts3Record);
+
+
+      var summary = new Summary("sum", "Sum");
+      summary.Format.Bold = true;
+
+      var xml = new XDocument(
+        new XElement("Report",
+          new XAttribute("Version", "1"),
+          new XAttribute("Orientation", report.Orientation),
+          new XElement("Axis", report.Axes.Select(ToXElement)),
+          new XElement("Body", report.Body.Select(ToXElement))));
+
+    }
+
+    private static XElement ToXElement(Record record)
+    {
+      switch (record)
+      {
+        case HeaderRecord r:
+          return new XElement("HeaderRecord",
+                  new XAttribute("Key", r.Key),
+                  new XAttribute("Header", r.Header),
+                  new XAttribute("ValueFormat", r.ValueFormat ?? "<null>"),
+                  ToXElement(r.Format));
+        case TimeSeriesRecord r:
+          return new XElement("TimeSeriesRecord",
+                  new XAttribute("Key", r.Key),
+                  new XAttribute("Header", r.Header),
+                  new XAttribute("ValueFormat", r.ValueFormat ?? "<null>"),
+                  //ToXElement(r.AggregationFormula),
+                  ToXElement(r.Format));
+        case CalculatedTimeSeriesRecord r:
+          return new XElement("CalculatedTimeSeriesRecord",
+                  new XAttribute("Key", r.Key),
+                  new XAttribute("Header", r.Header),
+                  new XAttribute("ValueFormat", r.ValueFormat ?? "<null>"),
+                  new XAttribute("Formlua", r.Formula),
+                  //ToXElement(r.AggregationFormula),
+                  ToXElement(r.Format));
+        default:
+          throw new NotSupportedException($"Serializing record type '{record.GetType().Name}' is not supported.");
+      }
+    }
+
+    //private static XElement ToXElement(Dictionary<string, string> aggregationFormula)
+    //{
+      
+    //}
+
+    private static XElement ToXElement(TimePointAxis axis)
+      => new XElement("TimePointAxis",
+        new XAttribute("Header", axis.Header),
+        new XAttribute("TimePointFormat", axis.TimePointFormat ?? "<null>"),
+        new XAttribute("TimePointType", axis.TimePointType),
+          ToXElement(axis.Format));
+
+    private static XElement? ToXElement(Format format)
+      => !format.HasAnyModified ? null : new XElement("Format",
+        format.HasBackgroundModified ? new XAttribute("Background", format.Background.ToHexCode()) : null,
+        format.HasForegroundModified ? new XAttribute("HasForegroundModified", format.Foreground.ToHexCode()) : null,
+        format.HasBoldModified ? new XAttribute("HasBoldModified", format.Bold) : null,
+        format.HasHorizontalAlignmentModified ? new XAttribute("HorizontalAlignment", format.HorizontalAlignment) : null);
+
     [TestMethod]
     public void TestReportGeneration_Horizontal()
     {

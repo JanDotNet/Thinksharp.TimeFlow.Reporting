@@ -17,6 +17,18 @@ namespace Thinksharp.TimeFlow.Reporting
 
     public static ReportColor FromArgb(byte a, byte r, byte g, byte b) => new ReportColor(a, r, g, b);
 
+    public string ToHexCode()
+    {
+      var hasA = this.A != 255;
+
+      var a = this.A.ToString("X2");
+      var r = this.R.ToString("X2");
+      var g = this.G.ToString("X2");
+      var b = this.B.ToString("X2");
+
+      return hasA ? $"#{a}{r}{g}{b}" : $"#{r}{g}{b}";
+    }
+
     public static ReportColor FromHexCode(string colorCode)
     {
       var match = colorHexCodeRegex.Match(colorCode);
