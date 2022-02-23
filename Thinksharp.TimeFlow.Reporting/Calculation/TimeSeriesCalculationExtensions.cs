@@ -1,46 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ThinkSharp.FormulaParsing;
-using ThinkSharp.FormulaParsing.Ast.Nodes;
-using ThinkSharp.FormulaParsing.Ast.Visitors;
 
 namespace Thinksharp.TimeFlow.Reporting.Calculation
 {
-  internal class CalculatedTimeSeries
-  {
-    public CalculatedTimeSeries(CalculatedTimeSeriesRecord record, Node parsedFormula, List<string> dependentVariables)
-    {
-      Record = record;
-      ParsedFormula = parsedFormula;
-      DependentVariables = dependentVariables;
-    }
 
-    public CalculatedTimeSeriesRecord Record { get; }
-    public Node ParsedFormula { get; }
-    public List<string> DependentVariables { get; }
-    public int TimeFrameLengthWhenLastChecked { get; set; } = -1;
-  }
-
-  internal class CollectVariablesVisitor : NodeVisitor<int>
-  {
-    private readonly List<string> variables;
-
-    public CollectVariablesVisitor(List<string> variables)
-    {
-      this.variables = variables;
-    }
-
-    public override int Visit(VariableNode node)
-    {
-      variables.Add(node.Name);
-
-      return base.Visit(node);
-    }
-  }
-
-  internal static class TimeSeriesCalcultor
+  internal static class TimeSeriesCalculationExtensions
   {
     public static void CheckIfTimeSeriesExist(this TimeFrame timeFrame, IEnumerable<TimeSeriesRecord> records)
     {
@@ -121,6 +87,49 @@ namespace Thinksharp.TimeFlow.Reporting.Calculation
       }
 
       return new Queue<CalculatedTimeSeries>(calculatedFormulas);
+    }
+
+    public static IEnumerable<SummaryResult> CalculateSummary(this TimeFrame timeFrame, IEnumerable<Record> records)
+    {
+      var parser = FormulaParser.CreateBuilder().ConfigureValidationBehavior(b =>
+      {
+        b.DisableVariableNameValidation();
+        b.DisableFunctionNameValidation();
+      }).Build();
+
+      var visitor = new EvaluateTimeSeriesVisitor(timeFrame, Report.Config.TimeSeriesFunctions);
+
+      foreach (var record in records)
+      {
+        foreach (var summaryKeyFormula in record.SummaryFormula)
+        {
+          var summaryKey = summaryKeyFormula.Key;
+          var formula = summaryKeyFormula.Value.Trim();
+
+          TimeSeries aggTimeSeries;
+          var function = Report.Config.TimeSeriesFunctions.FirstOrDefault(f => f.Name == formula);
+          if (function != null)
+          {
+            aggTimeSeries = function.Evaluate(timeFrame, new[] { timeFrame[record.Key] });
+          }
+          else
+          {
+            var node = parser.Parse(formula);
+            if (!node.Success)
+            {
+              throw new ReportGenerationException($"Unable to parse formula '{formula}': {node.Error.Message}.");
+            }
+
+            aggTimeSeries = node.Value.Visit(visitor);
+          }
+          if (aggTimeSeries.Count > 1)
+          {
+            throw new ReportGenerationException($"Summary formula ('{formula}') requires an aggregation functions to get one single value!");
+          }
+
+          yield return new SummaryResult(summaryKey, record.Key, aggTimeSeries.FirstOrDefault()?.Value);
+        }
+      }
     }
   }
 }

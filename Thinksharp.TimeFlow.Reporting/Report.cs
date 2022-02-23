@@ -10,6 +10,9 @@ namespace Thinksharp.TimeFlow.Reporting
 {
   public class Report
   {
+    public static IReportConfiguration Configuration { get; } = new ReportConfiguration();
+    internal static ReportConfiguration Config => (ReportConfiguration)Configuration;
+
     public ReportOrientation Orientation { get; set; } = ReportOrientation.Vertical;
     public Format ColumnHeaderFormat { get; } = Format.Default();
     public Format RowHeaderFormat { get; } = Format.Default();

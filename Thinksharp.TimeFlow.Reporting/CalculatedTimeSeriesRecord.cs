@@ -11,7 +11,5 @@ namespace Thinksharp.TimeFlow.Reporting
     }
 
     public string Formula { get; }
-
-    public Dictionary<string, string> AggrgeationFormula { get; } = new Dictionary<string, string>();
   }
 }

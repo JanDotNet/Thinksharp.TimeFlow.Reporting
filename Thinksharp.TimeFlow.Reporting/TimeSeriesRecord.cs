@@ -8,7 +8,5 @@ namespace Thinksharp.TimeFlow.Reporting
       : base(key, header, valueFormat)
     {
     }
-
-    public Dictionary<string, string> AggregationFormula { get; } = new Dictionary<string, string>();
   }
 }

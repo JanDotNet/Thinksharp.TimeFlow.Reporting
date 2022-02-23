@@ -1,4 +1,6 @@
-﻿namespace Thinksharp.TimeFlow.Reporting
+﻿using System.Collections.Generic;
+
+namespace Thinksharp.TimeFlow.Reporting
 {
   public abstract class Record
   {
@@ -12,5 +14,7 @@
     public string Header { get; }
     public string Key { get; }
     public string? ValueFormat { get; }
+
+    public Dictionary<string, string> SummaryFormula { get; } = new Dictionary<string, string>();
   }
 }

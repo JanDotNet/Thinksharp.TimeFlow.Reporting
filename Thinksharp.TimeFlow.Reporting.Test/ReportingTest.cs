@@ -25,10 +25,11 @@ namespace Thinksharp.TimeFlow.Reporting.Test
       report.Axes.Add(new TimePointAxis("End", TimePointType.End, "HH:mm"));
 
       var ts1Record = new TimeSeriesRecord("ts1", "Meine Zeitreihe TS1", "0.00");
-      ts1Record.AggregationFormula.Add("sum", "SUM");
+      ts1Record.SummaryFormula.Add("sum", "SUM");
 
       var ts2Record = new TimeSeriesRecord("ts2", "Meine Zeitreihe TS2");
-      ts2Record.AggregationFormula.Add("sum", "SUM");
+      ts2Record.SummaryFormula.Add("sum", "SUM");
+      ts2Record.SummaryFormula.Add("sum", "SUMPRODUCT(ts1,ts2)/SUM(ts2)");
 
       var ts3Record = new CalculatedTimeSeriesRecord("ts3", "Summe: ", "ts1+ts2");
       ts3Record.Format.Bold = true;
