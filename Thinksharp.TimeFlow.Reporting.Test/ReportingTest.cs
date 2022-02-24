@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace Thinksharp.TimeFlow.Reporting.Test
 {
@@ -48,64 +47,14 @@ namespace Thinksharp.TimeFlow.Reporting.Test
 
       var summary = new Summary("sum", "Sum");
       summary.Format.Bold = true;
+      report.Summary.Add(summary);
 
-      var xml = new XDocument(
-        new XElement("Report",
-          new XAttribute("Version", "1"),
-          new XAttribute("Orientation", report.Orientation),
-          new XElement("Axis", report.Axes.Select(ToXElement)),
-          new XElement("Body", report.Body.Select(ToXElement))));
+      var xml = report.ToXml();
 
+      var reportActual = Report.FromXml(xml);
+      ReportComparer.AssertAreEqual(report, reportActual);
     }
 
-    private static XElement ToXElement(Record record)
-    {
-      switch (record)
-      {
-        case HeaderRecord r:
-          return new XElement("HeaderRecord",
-                  new XAttribute("Key", r.Key),
-                  new XAttribute("Header", r.Header),
-                  new XAttribute("ValueFormat", r.ValueFormat ?? "<null>"),
-                  ToXElement(r.Format));
-        case TimeSeriesRecord r:
-          return new XElement("TimeSeriesRecord",
-                  new XAttribute("Key", r.Key),
-                  new XAttribute("Header", r.Header),
-                  new XAttribute("ValueFormat", r.ValueFormat ?? "<null>"),
-                  //ToXElement(r.AggregationFormula),
-                  ToXElement(r.Format));
-        case CalculatedTimeSeriesRecord r:
-          return new XElement("CalculatedTimeSeriesRecord",
-                  new XAttribute("Key", r.Key),
-                  new XAttribute("Header", r.Header),
-                  new XAttribute("ValueFormat", r.ValueFormat ?? "<null>"),
-                  new XAttribute("Formlua", r.Formula),
-                  //ToXElement(r.AggregationFormula),
-                  ToXElement(r.Format));
-        default:
-          throw new NotSupportedException($"Serializing record type '{record.GetType().Name}' is not supported.");
-      }
-    }
-
-    //private static XElement ToXElement(Dictionary<string, string> aggregationFormula)
-    //{
-      
-    //}
-
-    private static XElement ToXElement(TimePointAxis axis)
-      => new XElement("TimePointAxis",
-        new XAttribute("Header", axis.Header),
-        new XAttribute("TimePointFormat", axis.TimePointFormat ?? "<null>"),
-        new XAttribute("TimePointType", axis.TimePointType),
-          ToXElement(axis.Format));
-
-    private static XElement? ToXElement(Format format)
-      => !format.HasAnyModified ? null : new XElement("Format",
-        format.HasBackgroundModified ? new XAttribute("Background", format.Background.ToHexCode()) : null,
-        format.HasForegroundModified ? new XAttribute("HasForegroundModified", format.Foreground.ToHexCode()) : null,
-        format.HasBoldModified ? new XAttribute("HasBoldModified", format.Bold) : null,
-        format.HasHorizontalAlignmentModified ? new XAttribute("HorizontalAlignment", format.HorizontalAlignment) : null);
 
     [TestMethod]
     public void TestReportGeneration_Horizontal()

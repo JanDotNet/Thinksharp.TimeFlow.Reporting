@@ -19,6 +19,8 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
       {
         case VerticalHeaderRow r:
           return Record.Header;
+        case VerticalSummaryRow r:
+          return r.GetValue(Record.Key);
         case VerticalTimePointRow r:
           return timeFrame[Record.Key][r.TimePoint];
         default:
@@ -28,7 +30,13 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 
     public override string? GetValueFormat(Row row)
     {
-      return Record.ValueFormat ?? row?.GetValueFormat();
+      switch (row)
+      {
+        case VerticalSummaryRow r:
+          return r.Summary.ValueFormat ?? row?.GetValueFormat();
+        default:
+          return Record.ValueFormat ?? row?.GetValueFormat();
+      }
     }
   }
 }

@@ -46,6 +46,33 @@ namespace Thinksharp.TimeFlow.Reporting
       return new ReportColor(a, r, g, b);
     }
 
+    public override bool Equals(object obj)
+    {
+      var other = obj as ReportColor;
+      if (other == null)
+        return false;
+
+      return this.A == other.A 
+        && this.R == other.R 
+        && this.G == other.G 
+        && this.B == other.B; 
+    }
+
+    public override int GetHashCode()
+    {
+      int hash = 17;
+      hash = hash * 31 + A.GetHashCode();
+      hash = hash * 31 + R.GetHashCode();
+      hash = hash * 31 + G.GetHashCode();
+      hash = hash * 31 + B.GetHashCode();
+      return hash;
+    }
+
+    public override string ToString()
+    {
+      return this.ToHexCode();
+    }
+
     public byte A { get; }
     public byte R { get; }
     public byte G { get; }

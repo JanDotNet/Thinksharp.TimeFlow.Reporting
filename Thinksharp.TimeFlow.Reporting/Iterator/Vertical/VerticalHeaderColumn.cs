@@ -13,9 +13,11 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
     public override object? GetCellValue(Row row)
     {
       switch (row)
-      {
+      { 
         case VerticalHeaderRow r:
           return Record.Header;
+        case VerticalSummaryRow r:
+          return null;
         case VerticalTimePointRow r:
           return null;
         default:

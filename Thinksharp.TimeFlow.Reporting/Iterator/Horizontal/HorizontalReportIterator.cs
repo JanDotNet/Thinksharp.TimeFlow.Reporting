@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Thinksharp.TimeFlow.Reporting.Calculation;
 
 namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
 {
@@ -7,11 +8,13 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
   {
     private readonly Report report;
     private readonly TimeFrame timeFrame;
+    private readonly SummaryResult[] summaryResults;
 
-    public HorizontalReportIterator(Report report, TimeFrame timeFrame)
+    public HorizontalReportIterator(Report report, TimeFrame timeFrame, SummaryResult[] summaryResults)
     {
       this.report = report;
       this.timeFrame = timeFrame;
+      this.summaryResults = summaryResults;
     }
 
     public IEnumerable<Column> EnumerateColumns()
@@ -23,7 +26,7 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Horizontal
       // summary header
       foreach (var summary in report.Summary)
       {
-        yield return new HorizontalSummaryColumn(colNum++, summary, report.ColumnHeaderFormat);
+        yield return new HorizontalSummaryColumn(colNum++, summary, report.ColumnHeaderFormat, this.summaryResults);
       }
 
       // time series data columns

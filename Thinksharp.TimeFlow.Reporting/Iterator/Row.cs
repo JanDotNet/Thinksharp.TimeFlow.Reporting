@@ -8,7 +8,7 @@
     }
     public int Number { get; }
 
-    public virtual Format Format { get; protected set; } = Format.Default();
+    public Format Format { get; protected set; } = Format.Default();
 
     internal virtual string? GetValueFormat() => null;
   }

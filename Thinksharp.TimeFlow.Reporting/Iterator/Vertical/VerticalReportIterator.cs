@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Thinksharp.TimeFlow.Reporting.Calculation;
 
 namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
 {
-  public class VerticalReportIterator : IReportIterator
+  internal class VerticalReportIterator : IReportIterator
   {
     private readonly Report report;
     private readonly TimeFrame timeFrame;
+    private readonly SummaryResult[] summaryResults;
 
-    public VerticalReportIterator(Report report, TimeFrame timeFrame)
+    public VerticalReportIterator(Report report, TimeFrame timeFrame, SummaryResult[] summaryResults)
     {
       this.report = report;
       this.timeFrame = timeFrame;
+      this.summaryResults = summaryResults;
     }
 
     public IEnumerable<Column> EnumerateColumns()
@@ -50,6 +53,11 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
     public IEnumerable<Row> EnumerateDataRows()
     {
       var rowNum = 2;
+      foreach (var summary in this.report.Summary)
+      {
+        yield return new VerticalSummaryRow(rowNum++, summary, this.summaryResults);
+      }
+
       foreach (var timePoint in timeFrame.EnumerateTimePoints())
       {
         yield return new VerticalTimePointRow(rowNum++, timePoint);

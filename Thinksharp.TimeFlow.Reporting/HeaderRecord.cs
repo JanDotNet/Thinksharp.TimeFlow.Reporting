@@ -4,8 +4,8 @@ namespace Thinksharp.TimeFlow.Reporting
 {
   public class HeaderRecord : Record
   {
-    public HeaderRecord(string header)
-      : base(Guid.NewGuid().ToString(), header)
+    public HeaderRecord(string header, string? key = null)
+      : base(key ?? Guid.NewGuid().ToString(), header)
     { 
     }
   }

@@ -56,6 +56,7 @@ namespace Thinksharp.TimeFlow.WpfApp
       ts3Record.Format.Bold = true;
       ts3Record.Format.Background = ReportColor.Blue;
       ts3Record.Format.HorizontalAlignment = Reporting.HorizontalAlignment.Center;
+      ts3Record.SummaryFormula.Add("sum", "SUM");
 
       var header = new HeaderRecord("my Header");
       header.Format.Background = ReportColor.Blue;

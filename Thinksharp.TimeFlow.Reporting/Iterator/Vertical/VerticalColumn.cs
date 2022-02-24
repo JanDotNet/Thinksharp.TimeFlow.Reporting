@@ -10,6 +10,8 @@
     {
       switch (row)
       {
+        case VerticalSummaryRow r:
+          return r.Format.Merge(this.Format);
         case VerticalHeaderRow r:
           return this.ColumnFormat;
         default:

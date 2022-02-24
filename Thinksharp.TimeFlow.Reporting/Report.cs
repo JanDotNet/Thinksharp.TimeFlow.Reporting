@@ -22,19 +22,24 @@ namespace Thinksharp.TimeFlow.Reporting
     public string? Title { get; set; }
     public string? SubTitle { get; set; }
 
+    public string ToXml() => ReportSerializer.ToXml(this);
+
+    public static Report FromXml(string xml) => ReportSerializer.FromXml(xml);
+
     public IReportIterator CreateReportIterator(TimeFrame timeFrame)
     {
       timeFrame = timeFrame.Copy();
 
       timeFrame.CheckIfTimeSeriesExist(this.Body.OfType<TimeSeriesRecord>());
       timeFrame.ExtendWithCalculatedTimeSeries(Body.OfType<CalculatedTimeSeriesRecord>());
+      var summary = timeFrame.CalculateSummary(this.Body);
 
       switch (Orientation)
       {
         case ReportOrientation.Vertical:
-          return new VerticalReportIterator(this, timeFrame);
+          return new VerticalReportIterator(this, timeFrame, summary.ToArray());
         case ReportOrientation.Horizontal:
-          return new HorizontalReportIterator(this, timeFrame);
+          return new HorizontalReportIterator(this, timeFrame, summary.ToArray());
         default:
           throw new NotSupportedException($"Orientation '{Orientation}' is not supported for report iteration.");
       }

@@ -19,6 +19,16 @@ namespace Thinksharp.TimeFlow.Reporting.Iterator.Vertical
       {
         case VerticalHeaderRow r:
           return axis.Header;
+        case VerticalSummaryRow r:
+          switch (axis.TimePointType)
+          {
+            case TimePointType.Start:
+              return timeFrame.Start;
+            case TimePointType.End:
+              return timeFrame.End;
+            default:
+              throw new NotSupportedException($"TimePointType '{axis.TimePointType}' is not supported.");
+          }
         case VerticalTimePointRow r:
           switch (axis.TimePointType)
           {
