@@ -9,7 +9,6 @@
           <Border Background="{TemplateBinding Background}"
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}">
-            <!--<ListView x:Name="ListView" />-->
             <DataGrid x:Name="DataGrid"
                       IsReadOnly="True"
                       SelectionMode="Extended"
@@ -56,11 +55,6 @@
                   <Setter Property="TextBlock.TextAlignment" Value="{Binding HorizontalAlignment}" />
                 </Style>
               </DataGrid.RowStyle>
-              <!--<DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
-                  <Setter Property="ContentStringFormat" Value="0.00" />                  
-                </Style>
-              </DataGrid.CellStyle>-->
             </DataGrid>
           </Border>
         </ControlTemplate>

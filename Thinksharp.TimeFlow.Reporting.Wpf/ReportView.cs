@@ -27,7 +27,7 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
     private static void ReportProeprtyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var repowrtView = d as ReportView;
-      repowrtView.UpdateReport();
+      repowrtView.UpdateView(repowrtView.Report, repowrtView.TimeFrame);
     }
 
     public TimeFrame TimeFrame
@@ -43,7 +43,7 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
     private static void TimeFramePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var repowrtView = d as ReportView;
-      repowrtView.UpdateReport();
+      repowrtView.UpdateView(repowrtView.Report, repowrtView.TimeFrame);
     }
 
     private DataTemplate CreateTemplate(Binding binding)
@@ -57,17 +57,15 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
       return cellTemplate;
     }
 
-    private void UpdateReport()
+    public void UpdateView(Report report, TimeFrame timeFrame)
     {
-      if (this.Report == null || this.TimeFrame == null)
+      if (report == null || timeFrame == null)
       {
         return;
       }
 
       var dataGrid = this.GetTemplateChild("DataGrid") as DataGrid;
-      var report = this.Report;
-      var timeFrame = this.TimeFrame;
-
+      
       dataGrid.Columns.Clear();
 
       var iterator = report.CreateReportIterator(timeFrame);
