@@ -17,7 +17,7 @@
                       HorizontalGridLinesBrush="#E0E0E0"
                       VerticalGridLinesBrush="#E0E0E0"
                       AutoGenerateColumns="False"
-                      HorizontalAlignment="Left"
+                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                       CanUserDeleteRows="False"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"

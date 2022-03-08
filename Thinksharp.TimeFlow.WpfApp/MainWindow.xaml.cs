@@ -23,6 +23,9 @@ namespace Thinksharp.TimeFlow.WpfApp
   /// </summary>
   public partial class MainWindow : Window
   {
+    private Report report;
+    private TimeFrame timeFrame;
+
     public MainWindow()
     {
       InitializeComponent();
@@ -31,8 +34,8 @@ namespace Thinksharp.TimeFlow.WpfApp
     private void Render(ReportOrientation orientation)
     {
       var tf = new TimeFrame();
-      tf["ts1"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2022, 01, 02), Period.Hour);
-      tf["ts2"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2022, 01, 02), Period.Hour);
+      tf["ts1"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2022, 01, 02), Period.QuarterHour);
+      tf["ts2"] = TimeSeries.Factory.FromValue(10, new DateTime(2022, 01, 01), new DateTime(2022, 01, 02), Period.QuarterHour);
 
       var report = new Report();
       report.Orientation = orientation;
@@ -68,13 +71,14 @@ namespace Thinksharp.TimeFlow.WpfApp
       report.Body.Add(ts3Record);
 
 
-      var summary = new Summary("sum", "Sum");
+      var summary = new Summary("sum", "Sum", "N3");
       summary.Format.Bold = true;
-
       report.Summary.Add(summary);
 
-      Report.Report = report;
-      Report.TimeFrame = tf;
+      Report.UpdateView(report, tf);
+
+      this.report = report;
+      this.timeFrame = tf;
     }
 
     private void Button_VerticalClick(object sender, RoutedEventArgs e)
@@ -88,11 +92,11 @@ namespace Thinksharp.TimeFlow.WpfApp
 
     private void Button_ExportClick(object sender, RoutedEventArgs e)
     {
-      if (Report.Report != null && Report.TimeFrame != null)
+      if (this.report != null && this.timeFrame != null)
       {
         var tempFile = System.IO.Path.GetTempFileName() + ".xlsx";
 
-        ExcelExport.ExportToExcel(Report.Report, Report.TimeFrame, tempFile);
+        ExcelExport.ExportToExcel(this.report, this.timeFrame, tempFile);
 
         System.Diagnostics.Process.Start(tempFile);
       }

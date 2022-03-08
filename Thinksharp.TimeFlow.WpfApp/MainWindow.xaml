@@ -16,6 +16,6 @@
       <Button Content="Horizontal" Click="Button_HorizontalClick" />
       <Button Content="Export to Excel" Click="Button_ExportClick" />
     </StackPanel>
-    <wpf:ReportView Grid.Row="1" Name="Report" />
+    <wpf:ReportView Grid.Row="1" Name="Report" HorizontalAlignment="Stretch" />
   </Grid>
 </Window>

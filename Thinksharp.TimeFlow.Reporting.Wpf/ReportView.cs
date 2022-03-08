@@ -9,41 +9,10 @@ using System.Windows.Media;
 namespace Thinksharp.TimeFlow.Reporting.Wpf
 {
   public partial class ReportView : Control
+  {
+    static ReportView()
     {
-        static ReportView()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ReportView), new FrameworkPropertyMetadata(typeof(ReportView)));
-        }
-
-    public Report Report
-    {
-      get { return (Report)GetValue(ReportProperty); }
-      set { SetValue(ReportProperty, value); }
-    }
-
-    public static readonly DependencyProperty ReportProperty =
-        DependencyProperty.Register("Report", typeof(Report), typeof(ReportView), new PropertyMetadata(null, ReportProeprtyChangedCallback));
-
-    private static void ReportProeprtyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-      var repowrtView = d as ReportView;
-      repowrtView.UpdateView(repowrtView.Report, repowrtView.TimeFrame);
-    }
-
-    public TimeFrame TimeFrame
-    {
-      get { return (TimeFrame)GetValue(TimeFrameProperty); }
-      set { SetValue(TimeFrameProperty, value); }
-    }
-
-    // Using a DependencyProperty as the backing store for TimeFrame.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty TimeFrameProperty =
-        DependencyProperty.Register("TimeFrame", typeof(TimeFrame), typeof(ReportView), new PropertyMetadata(null, TimeFramePropertyChangedCallback));
-
-    private static void TimeFramePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-      var repowrtView = d as ReportView;
-      repowrtView.UpdateView(repowrtView.Report, repowrtView.TimeFrame);
+      DefaultStyleKeyProperty.OverrideMetadata(typeof(ReportView), new FrameworkPropertyMetadata(typeof(ReportView)));
     }
 
     private DataTemplate CreateTemplate(Binding binding)
@@ -65,7 +34,7 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
       }
 
       var dataGrid = this.GetTemplateChild("DataGrid") as DataGrid;
-      
+
       dataGrid.Columns.Clear();
 
       var iterator = report.CreateReportIterator(timeFrame);
@@ -101,10 +70,10 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
         if (colDataFormat != null)
         {
           column.CellStyle = new Style(typeof(DataGridCell));
-          
+
           if (colDataFormat.HasHorizontalAlignmentModified)
             column.CellStyle.Setters.Add(new Setter(TextBlock.TextAlignmentProperty, colDataFormat.HorizontalAlignment.ToTextAlignment()));
-          
+
           if (colDataFormat.HasBoldModified && colDataFormat.Bold)
             column.CellStyle.Setters.Add(new Setter(DataGridCell.FontWeightProperty, FontWeights.Bold));
 
@@ -130,12 +99,12 @@ namespace Thinksharp.TimeFlow.Reporting.Wpf
 
       var rows = new List<RowViewModel>();
       foreach (var row in iterator.EnumerateDataRows())
-      { 
+      {
         colNo = 1;
         var dic = new Dictionary<string, object>();
         foreach (var col in iterator.EnumerateColumns())
         {
-          var colName = "column" + colNo++;          
+          var colName = "column" + colNo++;
 
           dic[colName] = col.GetCellValue(row);
         }
